@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Málaga | Servicio Profesional 24h | Tu Taxi de Confianza</title>
+    <meta name="description" content="Servicio de Taxi en Málaga. Traslados al aeropuerto (AGP), viajes de larga distancia y tours turísticos. Calcula tu tarifa y reserva por WhatsApp.">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --dark-color: #333;
+            --light-color: #fff;
+            --whatsapp-color: #25D366;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+        header {
+            background: var(--light-color);
+            color: var(--dark-color);
+            padding: 1rem 0;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        nav a {
+            color: var(--dark-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .hero {
+            background: url('https://i.imgur.com/eJ7hVzE.jpeg') no-repeat center center/cover;
+            height: 60vh;
+            color: var(--light-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .hero * {
+            z-index: 2;
+        }
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .cta-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--light-color);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        .cta-button:hover {
+            background: #0056b3;
+        }
+        .whatsapp-button {
+            background: var(--whatsapp-color);
+        }
+        .whatsapp-button:hover {
+            background: #1EBE57;
+        }
+        .section {
+            padding: 4rem 0;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+        .experience-img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .calculator-container {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        .tab-button {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #777;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        #result {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        #result-price {
+            color: var(--primary-color);
+        }
+        #confirm-btn {
+            width: 100%;
+            margin-top: 1rem;
+            display: none; /* Hidden initially */
+        }
+        .tariffs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .tariff-card {
+            background: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .tariff-card h4 {
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        .tariff-card p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        .tariff-card span {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .fixed-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1001;
+        }
+        .fixed-cta a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            font-size: 1.5rem;
+        }
+        footer {
+            background: var(--dark-color);
+            color: var(--light-color);
+            text-align: center;
+            padding: 2rem 0;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            header .container {
+                flex-direction: column;
+            }
+            nav {
+                margin-top: 1rem;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Taxi Málaga</h1>
+            <nav>
+                <a href="#calculator">Calculadora</a>
+                <a href="#experience">Experiencia</a>
+                <a href="#tariffs">Tarifas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2>Tu Taxi de Confianza en Málaga</h2>
+        <p>Servicio rápido, seguro y profesional. Para el aeropuerto, ciudad y donde necesites.</p>
+        <a href="#calculator" class="cta-button">Calcular Tarifa Ahora</a>
+    </section>
+
+    <main>
+        <section id="calculator" class="section">
+            <div class="container">
+                <h2 class="section-title">Calcula tu Trayecto</h2>
+                <div class="calculator-container">
+                    <div class="tabs">
+                        <button class="tab-button active" onclick="openTab(event, 'from-malaga')">Desde Málaga Centro</button>
+                        <button class="tab-button" onclick="openTab(event, 'from-airport')">Desde Aeropuerto (AGP)</button>
+                        <button class="tab-button" onclick="openTab(event, 'tours')">Taxi Tours</button>
+                    </div>
+
+                    <div id="from-malaga" class="tab-content active">
+                        <div class="form-group">
+                            <label for="dest-malaga">Selecciona tu Destino:</label>
+                            <input list="dest-malaga-list" id="dest-malaga" class="destination-input" placeholder="Escribe o selecciona un destino...">
+                            <datalist id="dest-malaga-list"></datalist>
+                        </div>
+                    </div>
+
+                    <div id="from-airport" class="tab-content">
+                        <div class="form-group">
+                            <label for="dest-airport">Selecciona tu Destino:</label>
+                            <input list="dest-airport-list" id="dest-airport" class="destination-input" placeholder="Escribe o selecciona un destino...">
+                            <datalist id="dest-airport-list"></datalist>
+                        </div>
+                    </div>
+
+                    <div id="tours" class="tab-content">
+                        <div class="form-group">
+                            <label for="dest-tours">Elige tu Tour o Viaje:</label>
+                            <input list="dest-tours-list" id="dest-tours" class="destination-input" placeholder="Elige un tour o capital...">
+                            <datalist id="dest-tours-list"></datalist>
+                        </div>
+                    </div>
+                    
+                    <div id="result"></div>
+                    <a id="confirm-btn" class="cta-button whatsapp-button" href="#" target="_blank">
+                        Confirmar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="section" style="background-color: var(--secondary-color);">
+            <div class="container">
+                <h2 class="section-title">Una Experiencia Cómoda y Segura</h2>
+                <div class="grid-2">
+                    <div>
+                        <h3>Viaja con nosotros</h3>
+                        <p>Disfruta de un viaje placentero en un vehículo moderno, limpio y confortable. Mi prioridad es tu puntualidad y seguridad, ofreciendo un trato amable y profesional en cada trayecto.</p>
+                        <p>Ya sea un traslado al aeropuerto, una reunión de negocios o un tour turístico por Andalucía, te garantizo un servicio de la más alta calidad. Conozco Málaga y la Costa del Sol a la perfección para llevarte por la ruta más eficiente.</p>
+                        <a href="tel:+34697255086" class="cta-button">Llamar Ahora</a>
+                    </div>
+                    <div>
+                        <img src="https://i.imgur.com/kS9Q14B.jpeg" alt="Taxi en Palacio Miramar" class="experience-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tariffs" class="section">
+            <div class="container">
+                <h2 class="section-title">Tarifas Oficiales 2024</h2>
+                <p style="text-align:center; max-width: 700px; margin: -2rem auto 3rem auto;">Tarifas orientativas aprobadas por la Junta de Andalucía. El precio final puede variar ligeramente según el tráfico y la hora exacta del servicio.</p>
+                <div class="tariffs-grid">
+                    <div class="tariff-card">
+                        <h4>Tarifa 7 (Laborables)</h4>
+                        <p>1,75 €</p>
+                        <span>Bajada de Bandera</span>
+                        <hr>
+                        <p>8,80 €/hora</p>
+                        <span>Hora de Espera</span>
+                    </div>
+                    <div class="tariff-card">
+                        <h4>Tarifa 8 (Nocturno/Festivo)</h4>
+                        <p>3,51 €</p>
+                        <span>Bajada de Bandera</span>
+                         <hr>
+                        <p>20,21 €/hora</p>
+                        <span>Hora de Espera</span>
+                    </div>
+                     <div class="tariff-card">
+                        <h4>Suplemento Aeropuerto</h4>
+                        <p>5,50 €</p>
+                        <span>Aplicable a todos los servicios desde/hacia el aeropuerto.</span>
+                    </div>
+                    <div class="tariff-card">
+                        <h4>Mínimo Percepción</h4>
+                        <p>3,67 €</p>
+                        <span>Importe mínimo para servicios.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="fixed-cta">
+        <a href="https://wa.me/34697255086" target="_blank" class="whatsapp-button" aria-label="Contactar por WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.1-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+        </a>
+        <a href="tel:+34697255086" style="background-color: var(--primary-color);" aria-label="Llamar por teléfono">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.28 1.464l-1.12 2.242a.5.5 0 0 0 .14.596l2.852 2.852a.5.5 0 0 0 .596.14l2.242-1.12c.49-.165 1.041-.049 1.464.28l2.295 2.295a1.745 1.745 0 0 1 .163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03.002-2.137.702-2.877z"/></svg>
+        </a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Taxi Málaga. Servicio Profesional. Todos los derechos reservados.</p>
+            <p>Teléfono y WhatsApp: +34 697 25 50 86</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATABASE FROM TARIFF IMAGES ---
+        const phoneNumber = '34697255086';
+        const prices = {
+            malaga: {
+                // Extracted from the 4 tariff images for "Desde Málaga"
+                "Alameda": { T7: 97.64, T8: 115.20 },
+                "Alcalá Del Valle (Cádiz)": { T7: 97.32, T8: 114.80 },
+                "Alfarnate": { T7: 68.00, T8: 80.00 },
+                "Alfarnatejo": { T7: 69.36, T8: 82.00 },
+                "Algarrobo": { T7: 58.48, T8: 68.80 },
+                "Algatocín": { T7: 179.52, T8: 211.20 },
+                "Algeciras (Cádiz)": { T7: 193.12, T8: 227.20 },
+                "Alhama De Granada": { T7: 111.52, T8: 131.20 },
+                "Alhaurín De La Torre": { T7: 24.48, T8: 28.80 },
+                "Alhaurín El Grande": { T7: 36.72, T8: 43.20 },
+                "Almachar": { T7: 46.24, T8: 54.40 },
+                "Almargen": { T7: 108.80, T8: 128.00 },
+                "Almogía": { T7: 48.96, T8: 57.60 },
+                "Alora": { T7: 34.00, T8: 40.00 },
+                "Ayamonte (Huelva)": { T7: 402.56, T8: 473.60 },
+                "Almuñécar (Granada)": { T7: 121.04, T8: 142.40 },
+                "Alozaina": { T7: 54.40, T8: 64.00 },
+                "Alpandeire": { T7: 164.56, T8: 193.60 },
+                "Antequera": { T7: 73.44, T8: 86.40 },
+                "Archidona": { T7: 82.96, T8: 97.60 },
+                "Ardales": { T7: 73.44, T8: 86.40 },
+                "Aracena (Huelva)": { T7: 421.60, T8: 496.00 },
+                "Arenas": { T7: 65.28, T8: 76.80 },
+                "Arriate": { T7: 110.16, T8: 129.60 },
+                "Atajate": { T7: 170.00, T8: 200.00 },
+                "Baza (Jaén)": { T7: 333.56, T8: 393.60 },
+                "Benadalid": { T7: 184.96, T8: 217.60 },
+                "Benagalbón": { T7: 27.20, T8: 32.00 },
+                "Benahavís": { T7: 116.96, T8: 137.60 },
+                "Benalauría": { T7: 178.20, T8: 209.60 },
+                "Benalmádena Costa/Arroyo": { T7: 19.04, T8: 22.40 },
+                "Benalmádena Pueblo": { T7: 34.00, T8: 40.00 },
+                "Benamargosa": { T7: 66.64, T8: 78.40 },
+                "Benaoján": { T7: 170.00, T8: 200.00 },
+                "Bobadilla": { T7: 40.80, T8: 48.00 },
+                "Borge": { T7: 48.96, T8: 57.60 },
+                "Campillos": { T7: 104.72, T8: 123.20 },
+                "Cañete La Real": { T7: 111.52, T8: 131.20 },
+                "Carratraca": { T7: 103.36, T8: 121.60 },
+                "Casabermeja": { T7: 34.00, T8: 40.00 },
+                "Casares": { T7: 136.00, T8: 160.00 },
+                "Coín": { T7: 51.68, T8: 60.80 },
+                "Colmenar": { T7: 47.60, T8: 56.00 },
+                "Comares": { T7: 57.12, T8: 67.20 },
+                "Cómpeta": { T7: 82.96, T8: 97.60 },
+                "Cuevas Bajas": { T7: 108.80, T8: 128.00 },
+                "Cuevas de San Marcos": { T7: 122.40, T8: 144.00 },
+                "Estepona": { T7: 140.08, T8: 164.80 },
+                "Frigiliana": { T7: 95.20, T8: 112.00 },
+                "Fuengirola": { T7: 46.24, T8: 54.40 },
+                "Fuente de Piedra": { T7: 108.80, T8: 128.00 },
+                "Gaucín": { T7: 176.80, T8: 208.00 },
+                "Genalguacil": { T7: 197.20, T8: 232.00 },
+                "Gibraltar": { T7: 170.00, T8: 200.00 },
+                "Humilladero": { T7: 95.20, T8: 112.00 },
+                "Iznate": { T7: 57.12, T8: 67.20 },
+                "Jimera de Líbar": { T7: 197.20, T8: 232.00 },
+                "Jubrique": { T7: 170.00, T8: 200.00 },
+                "Júzcar": { T7: 180.88, T8: 212.80 },
+                "La Joya": { T7: 99.28, T8: 116.80 },
+                "Lagunillas (Jaén)": { T7: 349.52, T8: 411.20 },
+                "Loja (Granada)": { T7: 100.64, T8: 118.40 },
+                "Mijas": { T7: 51.68, T8: 60.80 },
+                "Moclinejo": { T7: 40.80, T8: 48.00 },
+                "Monda": { T7: 65.28, T8: 76.80 },
+                "Montejaque": { T7: 170.00, T8: 200.00 },
+                "Nerja": { T7: 91.12, T8: 107.20 },
+                "Ojén": { T7: 84.32, T8: 99.20 },
+                "Parauta": { T7: 152.32, T8: 179.20 },
+                "Periana": { T7: 85.68, T8: 100.80 },
+                "Pizarra": { T7: 44.88, T8: 52.80 },
+                "Puerto de la Torre": { T7: 16.32, T8: 19.20 },
+                "Riogordo": { T7: 61.20, T8: 72.00 },
+                "Ronda": { T7: 155.04, T8: 182.40 },
+                "Salares": { T7: 92.48, T8: 108.80 },
+                "Sayalonga": { T7: 76.16, T8: 89.60 },
+                "Sedella": { T7: 89.76, T8: 105.60 },
+                "Teba": { T7: 106.08, T8: 124.80 },
+                "Tolox": { T7: 74.80, T8: 88.00 },
+                "Torremolinos": { T7: 20.40, T8: 24.00 },
+                "Torrox": { T7: 74.80, T8: 88.00 },
+                "Totalán": { T7: 34.00, T8: 40.00 },
+                "Valle de Abdalajís": { T7: 88.40, T8: 104.00 },
+                "Vélez-Málaga": { T7: 57.12, T8: 67.20 },
+                "Villanueva de Algaidas": { T7: 102.00, T8: 120.00 },
+                "Villanueva de la Concepción": { T7: 59.84, T8: 70.40 },
+                "Villanueva del Rosario": { T7: 65.28, T8: 76.80 },
+                "Villanueva del Trabuco": { T7: 82.96, T8: 97.60 },
+                "Viñuela": { T7: 74.80, T8: 88.00 },
+                "Yunquera": { T7: 85.68, T8: 100.80 },
+                "Zapata": { T7: 16.32, T8: 19.20 },
+            },
+            airport: {
+                // Extracted from the "Aeropuerto" tariff image
+                "Algarrobo": { T7: 77.52, T8: 93.20 },
+                "Alhaurín El Grande": { T7: 36.72, T8: 43.20 },
+                "Algeciras (Cádiz)": { T7: 193.12, T8: 227.20 },
+                "Almuñécar (Granada)": { T7: 121.04, T8: 142.40 },
+                "Álora": { T7: 55.64, T8: 66.80 },
+                "Antequera": { T7: 89.56, T8: 106.80 },
+                "Benalmádena Costa/Arroyo": { T7: 19.04, T8: 22.40 },
+                "Benahavís": { T7: 107.44, T8: 126.50 },
+                "Benamargosa": { T7: 88.40, T8: 104.00 },
+                "Bobadilla": { T7: 115.60, T8: 136.00 },
+                "Cala del Moral": { T7: 38.08, T8: 44.80 },
+                "Caleta de Vélez": { T7: 77.52, T8: 91.20 },
+                "Campillos": { T7: 104.72, T8: 123.20 },
+                "Cancelada": { T7: 111.52, T8: 131.20 },
+                "Casares": { T7: 136.00, T8: 160.00 },
+                "Coín": { T7: 47.60, T8: 56.00 },
+                "Colmenar": { T7: 63.92, T8: 76.00 },
+                "Cómpeta": { T7: 96.56, T8: 113.60 },
+                "Cuevas de San Marcos": { T7: 122.40, T8: 144.00 },
+                "El Borge": { T7: 66.64, T8: 78.40 },
+                "El Morche": { T7: 112.88, T8: 132.80 },
+                "El Chorro": { T7: 81.60, T8: 96.00 },
+                "Estepona": { T7: 155.04, T8: 182.40 },
+                "Fuengirola": { T7: 44.88, T8: 52.80 },
+                "Frigiliana": { T7: 103.36, T8: 121.60 },
+                "Gibraltar": { T7: 170.00, T8: 200.00 },
+                "Iznate": { T7: 78.88, T8: 92.80 },
+                "La Herradura (Granada)": { T7: 121.04, T8: 142.40 },
+                "Loja (Granada)": { T7: 108.80, T8: 128.00 },
+                "Lucena (Córdoba)": { T7: 152.32, T8: 179.20 },
+                "Manilva": { T7: 142.80, T8: 168.00 },
+                "Marbella": { T7: 73.44, T8: 86.40 },
+                "Maro": { T7: 96.56, T8: 113.60 },
+                "Mijas": { T7: 42.16, T8: 49.60 },
+                "Moclinejo": { T7: 62.56, T8: 73.60 },
+                "Morche": { T7: 84.32, T8: 99.20 },
+                "Motril (Granada)": { T7: 133.28, T8: 156.80 },
+                "Nerja": { T7: 100.64, T8: 118.40 },
+                "Ojén": { T7: 81.60, T8: 96.00 },
+                "Puerto Banús": { T7: 91.12, T8: 107.20 },
+                "Rincón de la Victoria": { T7: 43.52, T8: 51.20 },
+                "Ronda": { T7: 155.04, T8: 182.40 },
+                "Sabinillas": { T7: 127.84, T8: 150.40 },
+                "Salobreña": { T7: 115.60, T8: 136.00 },
+                "San Pedro Alcántara": { T7: 96.56, T8: 113.60 },
+                "San Roque": { T7: 172.72, T8: 203.20 },
+                "Sierra Nevada (Granada)": { T7: 231.20, T8: 272.00 },
+                "Sotogrande (Cádiz)": { T7: 169.92, T8: 199.90 },
+                "Tarifa (Cádiz)": { T7: 214.88, T8: 252.80 },
+                "Torre del Mar": { T7: 65.28, T8: 76.80 },
+                "Torrequebrada": { T7: 24.48, T8: 28.80 },
+                "Torremolinos": { T7: 16.32, T8: 19.20 },
+                "Torrox": { T7: 93.84, T8: 110.40 },
+                "Vélez-Málaga": { T7: 73.44, T8: 86.40 },
+                "Villanueva de Algaida": { T7: 114.24, T8: 134.40 },
+                "Villanueva de la Concepción": { T7: 70.72, T8: 83.20 },
+                "Villanueva del Rosario": { T7: 89.76, T8: 105.60 },
+                "Villanueva del Trabuco": { T7: 92.48, T8: 108.80 },
+            },
+            tours: {
+                // Extracted from "hasta las distintas Capitales"
+                "Alava": { T7: 1206.32, T8: 1440.00 },
+                "Albacete": { T7: 652.88, T8: 772.80 },
+                "Alicante": { T7: 660.56, T8: 783.20 },
+                "Almería": { T7: 353.60, T8: 416.80 },
+                "Ávila": { T7: 875.84, T8: 1038.40 },
+                "Badajoz": { T7: 591.60, T8: 697.60 },
+                "Barcelona": { T7: 1335.92, T8: 1595.20 },
+                "Bilbao": { T7: 1315.28, T8: 1559.20 },
+                "Burgos": { T7: 1062.16, T8: 1249.60 },
+                "Cáceres": { T7: 686.80, T8: 809.60 },
+                "Cádiz": { T7: 374.00, T8: 440.00 },
+                "Castellón": { T7: 969.68, T8: 1148.80 },
+                "Ciudad Real": { T7: 441.28, T8: 520.80 },
+                "Córdoba": { T7: 243.44, T8: 286.40 },
+                "Coruña": { T7: 1493.36, T8: 1761.60 },
+                "Cuenca": { T7: 836.40, T8: 984.00 },
+                "Girona": { T7: 1451.28, T8: 1718.40 },
+                "Granada": { T7: 172.44, T8: 198.40 },
+                "Guadalajara": { T7: 791.52, T8: 931.20 },
+                "Huelva": { T7: 425.68, T8: 500.80 },
+                "Huesca": { T7: 1279.76, T8: 1506.40 },
+                "Jaén": { T7: 299.20, T8: 352.00 },
+                "León": { T7: 1192.72, T8: 1401.60 },
+                "Lleida": { T7: 1374.96, T8: 1618.40 },
+                "Logroño": { T7: 1196.80, T8: 1408.00 },
+                "Lugo": { T7: 1395.44, T8: 1648.00 },
+                "Madrid": { T7: 760.24, T8: 894.40 },
+                "Murcia": { T7: 539.92, T8: 636.80 },
+                "Orense": { T7: 1448.48, T8: 1704.00 },
+                "Oviedo": { T7: 1248.48, T8: 1468.80 },
+                "Palencia": { T7: 1066.24, T8: 1254.40 },
+                "Pamplona": { T7: 1301.60, T8: 1533.60 },
+                "Pontevedra": { T7: 1483.84, T8: 1744.00 },
+                "Salamanca": { T7: 1028.16, T8: 1209.60 },
+                "San Sebastián": { T7: 1323.44, T8: 1560.00 },
+                "Santander": { T7: 1274.32, T8: 1499.20 },
+                "Segovia": { T7: 890.80, T8: 1048.00 },
+                "Sevilla": { T7: 299.20, T8: 352.00 },
+                "Soria": { T7: 980.56, T8: 1153.60 },
+                "Tarragona": { T7: 1222.64, T8: 1438.40 },
+                "Teruel": { T7: 953.44, T8: 1124.80 },
+                "Toledo": { T7: 686.52, T8: 811.20 },
+                "Valencia": { T7: 881.28, T8: 1036.80 },
+                "Valladolid": { T7: 1000.88, T8: 1177.60 },
+                "Vitoria": { T7: 1217.20, T8: 1432.00 },
+                "Zamora": { T7: 1107.04, T8: 1302.40 },
+                "Zaragoza": { T7: 1172.32, T8: 1379.20 },
+                // International
+                "Biarritz (Francia)": { T7: 1434.88, T8: 1689.60 },
+                "Bordeaux (Francia)": { T7: 1645.60, T8: 1936.00 },
+                "Faro (Portugal)": { T7: 549.60, T8: 656.00 },
+                "Lisboa (Portugal)": { T7: 889.44, T8: 1046.40 },
+                "Lourdes (Francia)": { T7: 1589.84, T8: 1870.40 },
+                "Oporto (Portugal)": { T7: 1120.64, T8: 1318.40 },
+                "París (Francia)": { T7: 2441.20, T8: 2872.00 },
+                "Perpignan (Francia)": { T7: 1604.80, T8: 1888.00 },
+                "Toulouse (Francia)": { T7: 1799.28, T8: 2116.80 }
+            }
+        };
+
+        // --- SCRIPT LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate datalists
+            populateDatalist('dest-malaga-list', prices.malaga);
+            populateDatalist('dest-airport-list', prices.airport);
+            populateDatalist('dest-tours-list', prices.tours);
+
+            // Add event listeners to input fields
+            document.querySelectorAll('.destination-input').forEach(input => {
+                input.addEventListener('input', calculatePrice);
+            });
+        });
+
+        function populateDatalist(listId, data) {
+            const datalist = document.getElementById(listId);
+            for (const key in data) {
+                const option = document.createElement('option');
+                option.value = key;
+                datalist.appendChild(option);
+            }
+        }
+
+        function openTab(evt, tabName) {
+            let i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+            
+            // Clear results when changing tabs
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('confirm-btn').style.display = 'none';
+        }
+
+        function calculatePrice() {
+            const activeTab = document.querySelector('.tab-content.active').id;
+            const input = document.querySelector(`#${activeTab} .destination-input`);
+            const destination = input.value;
+            const resultDiv = document.getElementById('result');
+            const confirmBtn = document.getElementById('confirm-btn');
+
+            let dataSet;
+            let origin = '';
+            if (activeTab === 'from-malaga') {
+                dataSet = prices.malaga;
+                origin = "Málaga Centro";
+            } else if (activeTab === 'from-airport') {
+                dataSet = prices.airport;
+                origin = "Aeropuerto (AGP)";
+            } else {
+                dataSet = prices.tours;
+                origin = "Málaga (Tour)";
+            }
+
+            if (dataSet[destination]) {
+                const priceInfo = dataSet[destination];
+                const priceT7 = priceInfo.T7.toFixed(2);
+                const priceT8 = priceInfo.T8.toFixed(2);
+
+                resultDiv.innerHTML = `
+                    Precio Estimado para <strong>${destination}</strong>:<br>
+                    <span id="result-price">
+                        ${priceT7}€ - ${priceT8}€
+                    </span>
+                    <br><small>(Tarifa diurna - nocturna/festiva)</small>
+                `;
+
+                const message = encodeURIComponent(`Hola, me gustaría confirmar un viaje desde ${origin} a ${destination}. El precio estimado es de ${priceT7}€ - ${priceT8}€. ¿Podrías confirmarme la disponibilidad?`);
+                confirmBtn.href = `https://wa.me/${phoneNumber}?text=${message}`;
+                confirmBtn.style.display = 'block';
+
+            } else {
+                resultDiv.innerHTML = '';
+                confirmBtn.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
